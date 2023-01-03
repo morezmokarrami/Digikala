@@ -1,4 +1,5 @@
 import {Navbar} from "./Navbar/Navbar";
+import {Row, Col} from "reactstrap";
 
 export const Home = () => {
 
@@ -6,7 +7,11 @@ export const Home = () => {
         <>
             <div>
                 <div className={'container-fluid'}>
-                    <Navbar/>
+                    <Row>
+                        <Col xl={12}>
+                            <Navbar/>
+                        </Col>
+                    </Row>
                 </div>
             </div>
         </>
