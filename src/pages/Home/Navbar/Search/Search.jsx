@@ -3,6 +3,7 @@ import {useEffect, useRef, useState} from "react";
 import get from '../../../../queries/get'
 import {useDispatch, useSelector} from "react-redux";
 import {FOCUS} from "../../../../redux/Slices/focusSlider";
+import {SEARCH} from "../../../../redux/Slices/searchSlider";
 
 export const Search = () => {
 
@@ -16,7 +17,8 @@ export const Search = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         getSearch();
-    }, [value,focused])
+        dispatch(SEARCH(search));
+    }, [value])
     const getSearch = async () => {
         try {
             const res = await get(
