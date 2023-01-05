@@ -1,6 +1,8 @@
 import {Input} from "reactstrap";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import get from '../../../../queries/get'
+import {useDispatch, useSelector} from "react-redux";
+import {FOCUS} from "../../../../redux/Slices/focusSlider";
 
 export const Search = () => {
 
@@ -8,12 +10,13 @@ export const Search = () => {
 
     const [value, setValue] = useState('');
     const [search, setSearch] = useState([]);
-    const [focused, setFocused] = useState([]);
+    const [focused, setFocused] = useState(false);
     const onChange = (e) => setValue(e.target.value);
+    const ref = useRef(null);
+    const dispatch = useDispatch();
     useEffect(() => {
         getSearch();
-        console.log(search);
-    }, [value])
+    }, [value,focused])
     const getSearch = async () => {
         try {
             const res = await get(
@@ -27,10 +30,22 @@ export const Search = () => {
         }
     }
 
+    const onFocused = () => {
+        setFocused(true);
+        dispatch(FOCUS(focused))
+    };
+
+    const onBlur = () => {
+        setFocused(false);
+        dispatch(FOCUS(focused))
+    };
+
+
+
     return (
         <>
             <div>
-                <Input className={'search-input'} placeholder={'جستجو...'} dir={'rtl'} value={value} onChange={onChange}/>
+                <input type="text" className={'search-input form-control'}   dir={'rtl'} value={value} onFocus={onFocused} placeholder={'جستجو...'} onChange={onChange} onBlur={onBlur} ref={ref}/>
             </div>
         </>
     )
